@@ -29,7 +29,8 @@ fun RootNavGraph(navController: NavHostController) {
                 signUp()
                 logIn()
                 mainNavGraph(scope)
-                detailsRoute(scope)
+                details(scope)
+                cart()
             }
         }
 

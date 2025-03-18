@@ -71,5 +71,5 @@ dependencies {
     implementation(Dependency.coil)
     implementation(Dependency.hiltNavigation)
     implementation(Dependency.splashScreen)
-
+    implementation(libs.graphics.shapes)
 }

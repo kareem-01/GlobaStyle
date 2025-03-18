@@ -1,10 +1,12 @@
 package com.example.clozithaven.di
 
 import com.example.repository.respository.AuthenticationRepositoryImpl
+import com.example.repository.respository.CartRepositoryImpl
 import com.example.repository.respository.CategoriesRepositoryImpl
 import com.example.repository.respository.LocalPrefsRepositoryImpl
 import com.example.repository.respository.ProductsRepositoryImpl
 import com.example.usecase.repositoryInterfaces.AuthenticationRepository
+import com.example.usecase.repositoryInterfaces.CartRepository
 import com.example.usecase.repositoryInterfaces.CategoriesRepository
 import com.example.usecase.repositoryInterfaces.LocalPrefsRepository
 import com.example.usecase.repositoryInterfaces.ProductsRepository
@@ -32,5 +34,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun provideProductRepository(repository: ProductsRepositoryImpl): ProductsRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideCartRepository(repository: CartRepositoryImpl): CartRepository
 
 }

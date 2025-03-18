@@ -91,7 +91,7 @@ fun SharedTransitionScope.DetailsScreen(
 private fun SharedTransitionScope.DetailsContent(
     state: DetailsUiState,
     listener: DetailsInteraction,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    visibilityScope: AnimatedVisibilityScope,
 ) {
     val navController = LocalNavController.current
     Box(
@@ -106,7 +106,7 @@ private fun SharedTransitionScope.DetailsContent(
             modifier = Modifier
                 .sharedElement(
                     state = rememberSharedContentState(key = "image-${state.id}"),
-                    animatedVisibilityScope = animatedVisibilityScope,
+                    animatedVisibilityScope = visibilityScope,
                     boundsTransform = productDetailBoundsTransform,
 //                    exit = fadeOut(nonSpatialExpressiveSpring()),
 //                    enter = fadeIn(nonSpatialExpressiveSpring()),
@@ -166,7 +166,7 @@ private fun SharedTransitionScope.DetailsContent(
                             text = state.title,
                             modifier = Modifier.sharedElement(
                                 state = rememberSharedContentState(key = "title-${state.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope
+                                animatedVisibilityScope = visibilityScope
                             )
                         )
                         StarRating(rating = state.rating)
@@ -183,17 +183,17 @@ private fun SharedTransitionScope.DetailsContent(
                     Column(verticalArrangement = Arrangement.spacedBy(Space8)) {
                         Text(text = "Size")
                         Row {
-                            repeat(3) { index ->
-                                val isSelected = state.selectedSize == index
+                            repeat(3) { colorIndex ->
+                                val isColorSelected = state.selectedSize == colorIndex
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.size_icon),
                                         contentDescription = null,
-                                        tint = if (isSelected) MaterialTheme.CustomColors().primary else MaterialTheme.CustomColors().sizeUnselectedColor
+                                        tint = if (isColorSelected) MaterialTheme.CustomColors().primary else MaterialTheme.CustomColors().sizeUnselectedColor
                                     )
                                     Text(
-                                        text = sizes[index]!!,
-                                        color = if (isSelected) Color.White else MaterialTheme.CustomColors().textColor
+                                        text = sizes[colorIndex]!!,
+                                        color = if (isColorSelected) Color.White else MaterialTheme.CustomColors().textColor
                                     )
                                 }
                             }
@@ -202,14 +202,14 @@ private fun SharedTransitionScope.DetailsContent(
                 Column(verticalArrangement = Arrangement.spacedBy(Space8)) {
                     Text(text = "Color")
                     Row(horizontalArrangement = Arrangement.spacedBy(Space8)) {
-                        repeat(5) { index ->
-                            val isSelected = state.selectedColor == index
+                        repeat(5) { colorIndex ->
+                            val isColorSelected = state.selectedColor == colorIndex
                             Box(
                                 modifier = Modifier
                                     .size(46.dp)
                                     .colorModifier(
-                                        isSelected = isSelected,
-                                        color = colors[index]!!
+                                        isSelected = isColorSelected,
+                                        color = colors[colorIndex]!!
                                     )
                             )
                         }

@@ -7,7 +7,7 @@ import com.example.repository.utils.Empty
 import com.example.repository.utils.emptyFromBackEnd
 
 fun ProductsDto.toEntity(favorites: List<String>): List<Product> =
-    this.data?.map { it?.toEntity(favorites)!! } ?: emptyList()
+    this.data?.mapNotNull { it?.toEntity(favorites) } ?: emptyList()
 
 fun ProductsDto.Data.toEntity(favorites: List<String>): Product {
     return Product(

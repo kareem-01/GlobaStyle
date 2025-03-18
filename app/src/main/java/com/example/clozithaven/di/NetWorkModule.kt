@@ -2,6 +2,7 @@ package com.example.clozithaven.di
 
 import com.example.remote.AuthInterceptor
 import com.example.remote.service.Authentication.AuthenticationService
+import com.example.remote.service.cart.CartService
 import com.example.remote.service.categories.CategoriesService
 import com.example.remote.service.products.ProductsService
 import dagger.Module
@@ -12,7 +13,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -24,7 +24,7 @@ object NetWorkModule {
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor:AuthInterceptor
+        authInterceptor: AuthInterceptor
     ): OkHttpClient =
         OkHttpClient
             .Builder()
@@ -67,11 +67,16 @@ object NetWorkModule {
 
     @Singleton
     @Provides
-    fun ProvideSignUpService(retrofit: Retrofit): AuthenticationService =
+    fun provideSignUpService(retrofit: Retrofit): AuthenticationService =
         retrofit.create(AuthenticationService::class.java)
 
     @Singleton
     @Provides
     fun provideProductService(retrofit: Retrofit): ProductsService =
         retrofit.create(ProductsService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideCartService(retrofit: Retrofit): CartService =
+        retrofit.create(CartService::class.java)
 }

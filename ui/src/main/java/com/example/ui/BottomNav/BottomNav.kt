@@ -15,13 +15,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.graphics.shapes.RoundedPolygon
+import androidx.graphics.shapes.toPath
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.ui.R
+import com.example.ui.Screen
 import com.example.ui.theme.CustomColors
 import com.example.ui.utils.noRippleClick
 
@@ -44,7 +50,7 @@ fun BottomNavigation(navController: NavHostController) {
     )
     val colors = MaterialTheme.CustomColors()
 
-    Box() {
+    Box {
         NavigationBar(
             containerColor = colors.bottomNavColor,
             modifier = Modifier
@@ -64,9 +70,8 @@ fun BottomNavigation(navController: NavHostController) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.polygon_icon),
                                     contentDescription = null,
-                                    tint = Color.Transparent
+                                    tint = if (currentRoute(navController) == item.screenRoute) colors.primary else Color.Gray
                                 )
-
                             }
                         } else {
                             Icon(
@@ -85,7 +90,6 @@ fun BottomNavigation(navController: NavHostController) {
                             launchSingleTop = true
                             restoreState = true
                         }
-
                     },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = colors.primary,
@@ -100,7 +104,26 @@ fun BottomNavigation(navController: NavHostController) {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = (-21).dp)
-                .noRippleClick { },
+                .noRippleClick {
+                    navController.navigate(Screen.Cart.route) {
+                        navController.graph.startDestinationRoute?.let { screen_route ->
+                            popUpTo(screen_route) {
+                                saveState = true
+                            }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+                .drawWithCache {
+                    val polygon = RoundedPolygon(
+                        numVertices = 6,
+                    )
+                    val polygonPath = polygon.toPath().asComposePath()
+                    onDrawBehind {
+                        drawPath(polygonPath, color = colors.primary)
+                    }
+                },
             contentAlignment = Alignment.Center
         ) {
             Icon(

@@ -6,6 +6,10 @@ import com.example.repository.models.dto.Authentication.LogInDto
 import com.example.repository.models.dto.Authentication.SignUpDto
 import com.example.repository.models.dto.brands.CategoriesDto
 import com.example.repository.models.dto.brands.SubCategoriesDto
+import com.example.repository.models.dto.cart.AddProductToCartDto
+import com.example.repository.models.dto.cart.GetCartDto
+import com.example.repository.models.dto.cart.RemoveSpecificItemFromCartDto
+import com.example.repository.models.dto.cart.UpdateCartItemCountDto
 import com.example.repository.models.dto.products.ProductDto
 import com.example.repository.models.dto.products.ProductsDto
 import com.example.repository.models.dto.products.WishListConfirmDto
@@ -16,6 +20,7 @@ interface RemoteDataSource {
     //authentication
     suspend fun signUp(body: SignUpBody): SignUpDto
     suspend fun logIn(body: LogInBody): LogInDto
+
     //authentication
     // category
     suspend fun getAllCategories(): CategoriesDto
@@ -28,8 +33,16 @@ interface RemoteDataSource {
     suspend fun getWishList(): WishListDto
     suspend fun addProductToWishList(itemId: String): WishListConfirmDto
     suspend fun deleteProductFromWishList(itemId: String)
+
     //products
     //cart
-    suspend fun addToCart(itemId: String)
-    //cart
+    suspend fun addToCart(itemId: String): AddProductToCartDto
+    suspend fun getCart(): GetCartDto
+    suspend fun updateCartProductQuantity(
+        itemId: String,
+        quantity: String
+    ): UpdateCartItemCountDto
+
+    suspend fun deleteProductFromCart(itemId: String): RemoveSpecificItemFromCartDto
+    suspend fun clearCart(): Unit
 }

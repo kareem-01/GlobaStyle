@@ -15,6 +15,7 @@ import com.example.ui.BottomNav.BottomNavigation
 import com.example.ui.MainNavGraph
 import com.example.ui.MainScreen
 import com.example.ui.Screen
+import com.example.ui.screens.cart.CartScreen
 import com.example.ui.screens.details.DetailsScreen
 import com.example.ui.screens.home.HomeScreen
 import com.example.ui.screens.logIn.LogInScreen
@@ -36,7 +37,7 @@ fun NavGraphBuilder.mainNavGraph(scope: SharedTransitionScope) {
     }
 }
 
-fun NavGraphBuilder.detailsRoute(sharedTransitionScope: SharedTransitionScope) {
+fun NavGraphBuilder.details(sharedTransitionScope: SharedTransitionScope) {
     composable(Screen.Details.route) {
 
         val productId = Screen.Details.args?.getString("id")!!
@@ -95,4 +96,10 @@ fun NavGraphBuilder.homeRoute(
 
 fun NavController.navigateToMainNavGraph(builder: NavOptionsBuilder.() -> Unit = {}) {
     navigate(Screen.Main.route, builder)
+}
+
+fun NavGraphBuilder.cart() {
+    composable(Screen.Cart.route) {
+        CartScreen()
+    }
 }
